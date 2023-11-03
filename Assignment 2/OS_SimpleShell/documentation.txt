@@ -1,0 +1,90 @@
+Documentation:
+Simple Unix-like Shell in C
+
+Introduction
+
+This is a simple Unix-like shell program implemented in C. It provides fundamental shell functionality such as executing commands, handling pipes, maintaining command history, and tracking process execution times.
+
+Features
+
+- Execute single commands.
+- Handle commands with pipes.
+- Support commands with up to two layers of piping.
+- Maintain a history of executed commands.
+- Display process ID (PID), start time, and execution time for each command.
+- Read commands from both standard input and files.
+
+Code Explanation
+
+Global Variables
+
+- history: An array of strings to store the history of executed commands. Implemented as a circular buffer, ensuring only the most recent commands are stored.
+- history_count: An integer tracking the number of commands in the history.
+- process_pid: An array of integers to store the Process IDs (PIDs) of executed processes.
+- pid_count: An integer tracking the number of PIDs stored.
+- start_time: An array of time_t variables to store the start times of executed processes.
+- start_count: An integer tracking the number of start times stored.
+- execution_time: An array of double variables to store the execution times of processes.
+- exec_time: An integer tracking the number of execution times stored.
+
+Function Implementation Details
+
+addToHistory Function
+
+- **Implementation**: Adds a command to the history. It manages the circular buffer, removing the oldest command when it's full.
+- **Usage**: Called after executing a command to add it to the history.
+- **Local Variables**: `token` (char pointer) - Used to tokenize the input string.
+
+parseInput Function
+
+- **Implementation**: Tokenizes an input string into individual command parameters by splitting it using space as a delimiter. Stores the parameters in an array.
+- **Usage**: Called before executing a command to parse the input into an array of parameters.
+- **Local Variables**: `token` (char pointer) - Used to tokenize the input string.
+
+launch Function
+
+- **Implementation**: Executes a single command. It forks a child process, and the child process uses execvp to execute the given command with its arguments. The parent process waits for the child to complete and records process information.
+- **Usage**: Used to execute single commands.
+- **Local Variables**: `pid` (int) - Stores the process ID of the child process, `start` (time_t) - Stores the start time of command execution, `end` (time_t) - Stores the end time of command execution.
+- **Exception Handling**: Checks if the fork() call was successful. If it fails (returns a value less than 0), an error message is printed.
+
+launch_pipe Function
+
+- **Implementation**: Handles commands with a single pipe (|). It creates two child processes, one for each side of the pipe, and connects them using a pipe. Each child process executes one part of the command, passing data between them through the pipe.
+- **Usage**: Used when a single pipe is detected in a command.
+- **Local Variables**: `pid1`, `pid2` (int) - Store the process IDs of child processes, `start` (time_t) - Stores the start time of command execution.
+- **Exception Handling**: Checks the return values of the pipe() and fork() calls. If any of them fail, an error message is printed, and the program exits.
+
+launch_pip2 Function
+
+- **Implementation**: Handles commands with two layers of piping (|). It creates three child processes and two pipes to connect them. Each child process executes one part of the command, passing data through the pipes accordingly.
+- **Usage**: Used when two pipes are detected in a command.
+- **Local Variables**: `pid1`, `pid2`, `pid3` (int) - Store the process IDs of child processes, `start`, `end` (time_t) - Stores the start and end times of command execution, `pipe1`, `pipe2` (int array) - Stores file descriptors for pipes.
+- **Exception Handling**: Checks the return values of the pipe() and fork() calls. If any of them fail, an error message is printed, and the program exits.
+
+main Function
+
+- **Implementation**: The entry point of the program. Provides a command prompt where users can enter commands. Handles various user inputs, including single commands, commands with pipes, and script execution from files. Displays the command history when the user exits the shell.
+- **Usage**: The starting point of the program, responsible for handling user interactions.
+- **Local Variables**: `input` (char array) - Stores user input, `parameters` (char pointer array) - Stores command parameters, `counter` (int) - Tracks the number of parameters, `flag` (bool) - Flags the presence of a pipe in the command, `count` (int) - Counts the number of pipes in the command.
+- **Exception Handling**: Checks if the fork() call was successful when executing single commands. If it fails, an error message is printed.
+
+Contributors
+
+- Shashwat Jha (2022472)
+- Ruchir Bhatowa (2022419)
+
+
+Limitations:
+
+Our simple shell doesn't work for the 'cd' command which allows one to change their directory.
+This is because the cd command changes the directory in the child process but this change isn't reflected in the
+main process.Thus, the change doesn't persist in our shell session.
+
+It also doesn't work for commands that can edit environment variables as the child process has its own environment and 
+environment variables set within a child process won't affect the parent process. For example, we can't edit shell variables 
+like "PS1".
+
+
+Github Repo Link:
+https://github.com/Shash-03/SImple_Shell/tree/main

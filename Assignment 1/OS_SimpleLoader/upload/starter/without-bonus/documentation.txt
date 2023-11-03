@@ -1,0 +1,42 @@
+Contributions:
+Both the members contributed equally
+
+Documentation:
+
+Line 1-6: 
+Declares 3 variables: 2 pointers pointing to struct ELF Header and struct ELF Program Header and an integer to store the file descriptor
+
+Line 7-19: 
+Declares the cleanup function which makes sure that it frees up the memory allocated to the variables
+
+Line 20-22:
+Stores the content of the file into the file descriptor 
+
+Line 23-27:
+Checks if the value of the file descriptor is valid
+
+Line 28-30:
+Reads the relevant data from the file descriptor into the memory address pointed towards by the edhr pointers
+
+Line 31-35:
+Checks if the data was read properly
+
+Line 36-38:
+Stores the entry point address into a variable called counter
+
+Line 39-53:
+Runs a while loop to iterate through the program headers to search for the header with the p_type attribute equal to PT_LOAD
+and making sure that the entry point lies in the segment with the p_type attribute equal to PT_LOAD
+
+Line 54-61:
+Declares a pointer which points towards the memory mapping from the offset equivalent to the value of p_offset with the size of p_memsz
+
+Line 62-70:
+Typecasts the required memory address into the same type as _start
+Stores the value of _start in result and prints result
+
+
+
+
+
+

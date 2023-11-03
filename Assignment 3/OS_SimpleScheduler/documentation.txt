@@ -1,0 +1,43 @@
+Documentation:
+
+We have implemented a simple Scheduler in C
+
+SimpleScheduler:
+
+Line 16-23:
+A Process struct which stores information about a Process
+
+Line 26-75:
+A Queue data structure which takes in parameters of type Process
+
+
+Line 78-83:
+Function to calculate difference between 2 time points
+
+Line 89-101:
+The SIGINT handler which also prints the history
+
+Line 103-250:
+
+The program starts by setting up shared memory and registering a signal handler for the SIGINT signal.
+
+It reads the number of CPUs and the time slice from the command-line arguments and initializes a queue and some variables for managing processes.
+
+The main program loop checks for running processes and executes necessary actions based on the current state of the system.
+
+It extracts file names from shared memory, enqueues user processes, and enqueues currently executing processes into the queue.
+
+The code dequeues processes from the queue and initiates their execution, either by forking new processes or by handling already running processes.
+
+The program stops the currently executing processes, checks their status, and updates the history of processes accordingly.
+
+The program continues in an infinite loop, managing processes and scheduling them based on the available resources.
+
+Finally, it performs cleanup of the shared memory before terminating.
+
+
+
+
+
+
+
