@@ -1,0 +1,26 @@
+Functions:
+
+void loader_cleanup(): Frees up the memory allocated to the ehdr and phdr pointers to prevent memory leaks.
+
+void sigsegv_handler(int signal, siginfo_t *info, void *context): Signal handler for segmentation faults. 
+This function is responsible for handling segmentation faults during the execution of the ELF file and 
+allocating memory to the corresponding memory segments using mmap.
+
+void load_and_run_elf(char **exe): Opens, reads, and executes the ELF file. This function also sets up 
+the signal handler for segmentation faults and prints the results of the execution.
+
+int main(int argc, char **argv): The main function of the program, responsible for checking the 
+number of command-line arguments, loading and running the ELF file, checking for any errors during 
+the process, and cleaning up allocated memory.
+
+
+Summary:
+
+Line 1-10: The global variables are declared to store crucial information and track important metrics during the execution of the ELF file.
+
+Line 11-24: The loader_cleanup function ensures that the memory allocated to the ehdr and phdr pointers is properly freed to prevent memory leaks.
+
+Line 25-85: The sigsegv_handler function catches segmentation fault signals, identifies the memory segment where the fault occurred, and allocates memory to that segment using the mmap function. It also updates the relevant counters to keep track of page faults, page allocations, and internal fragmentation.
+
+Line 86-143: The load_and_run_elf function is responsible for opening, reading, and executing the ELF file. It sets up the signal handler for segmentation faults, prints the results of the execution, and closes the ELF file.
+
