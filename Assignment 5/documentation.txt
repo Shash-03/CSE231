@@ -1,0 +1,21 @@
+Documentation:
+
+Line 1-24:
+
+Structs for thread arguments for the 1d and 2d case
+
+Line 25-43:
+
+Thread functions for the 1d and 2d case
+
+Line 45-94:
+
+Function for threading in the 1d case
+Also has edge case handling in case size is not divisible by the number 
+of threads
+
+Line 97-153:
+
+Function for threading in the 2d case
+Also has edge case handling in case size is not divisible by the number 
+of threads
